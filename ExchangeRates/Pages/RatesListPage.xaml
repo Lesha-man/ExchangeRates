@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:constants="clr-namespace:ExchangeRates.Constants"
+    x:Class="ExchangeRates.Pages.RatesListPage">
+
+    <StackLayout>
+        <Label
+            Text="{Static constants:Strings.ExchangeRates}" />
+
+        <Grid
+            ColumnDefinitions="3*, 2*, 2*">
+            <Label
+                Text="{Binding }" />
+            
+            <Label
+                Text="{Binding }" />
+        </Grid>
+
+        <CollectionView
+            ItemsSource="{Binding ExchangeRates}"
+            Margin="10,5">
+            <CollectionView.ItemTemplate>
+
+                <DataTemplate>
+
+                    <Grid
+                        ColumnDefinitions="3*, 2*, 2*">
+                        <Label
+                            Text="{Binding }" />
+                        
+                        <Label
+                            Text="{Binding }" />
+
+                        <Label
+                            Text="{Binding }" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+
+                
+            </CollectionView.EmptyView>
+        </CollectionView>
+    </StackLayout>
+
+</ContentPage>
