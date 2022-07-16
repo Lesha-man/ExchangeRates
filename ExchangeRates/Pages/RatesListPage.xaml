@@ -19,7 +19,7 @@
             Text="{Static constants:Strings.ExchangeRates}" />
 
         <Grid
-            ColumnDefinitions="3*, 2*, 2*">
+            ColumnDefinitions="2*, *, *">
             <Label
                 Text="{Binding }" />
             
@@ -35,9 +35,16 @@
                 <DataTemplate>
 
                     <Grid
-                        ColumnDefinitions="3*, 2*, 2*">
-                        <Label
-                            Text="{Binding }" />
+                        ColumnDefinitions="2*, 1*, 1*">
+                        <Label>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text=""/>
+                                    <Span Text="{Static constants:Symbols.NewLine}"/>
+                                    <Span Text=""/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
                         
                         <Label
                             Text="{Binding }" />

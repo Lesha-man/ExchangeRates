@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ExchangeRates.ViewModels
 {
-    public class MainViewModel
+    public class RatesListViewModel
     {
     }
 }

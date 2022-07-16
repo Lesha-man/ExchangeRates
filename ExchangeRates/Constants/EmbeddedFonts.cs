@@ -1,4 +1,4 @@
-﻿namespace Diploma.Helpers
+﻿namespace ExchangeRates.Helpers
 {
     public static partial class Constants
     {

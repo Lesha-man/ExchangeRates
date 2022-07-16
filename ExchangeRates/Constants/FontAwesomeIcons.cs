@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Diploma.Helpers
+namespace ExchangeRates.Helpers
 {
     public static partial class Constants
     {
