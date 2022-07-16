@@ -2,16 +2,21 @@
 using Newtonsoft.Json;
 using Xamarin.Essentials;
 
-namespace Diploma.Helpers
+namespace ExchangeRates.Helpers
 {
     public static class LocalSettingsHelper
     {
-        public static User User
+        public static Order Order
         {
-            get => JsonConvert.DeserializeObject<User>(Preferences.Get(nameof(User), string.Empty));
+            get => Get<Order>();
 
-            set => Preferences.Set(nameof(User), JsonConvert.SerializeObject(value,
+            set => Preferences.Set(nameof(Order), JsonConvert.SerializeObject(value,
                     new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore }));
         }
+
+        public static T Get<T>() => JsonConvert.DeserializeObject<T>(Preferences.Get(nameof(T), string.Empty));
+
+        public static void Set<T>(T value) => Preferences.Set(nameof(T), JsonConvert.SerializeObject(value,
+                    new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore }));
     }
 }

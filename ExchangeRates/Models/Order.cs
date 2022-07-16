@@ -7,6 +7,6 @@ namespace ExchangeRates.Models
 {
     public class Order
     {
-        public IList
+        public IList<string> Сurrencies { get; set; }
     }
 }

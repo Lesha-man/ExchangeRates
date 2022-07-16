@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <Folder Include="EmbeddedResources\Images\" />
+    <Folder Include="Services\" />
     <Folder Include="Views\" />
   </ItemGroup>
 </Project>
