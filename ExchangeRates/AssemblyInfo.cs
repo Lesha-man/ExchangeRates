@@ -1,12 +1,13 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using ExchangeRates.Constants;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 
 #region Fonts
 
-[assembly: ExportFont(Diploma.Helpers.Constants.EmbeddedFonts.FontAwesomeBrands)]
-[assembly: ExportFont(Diploma.Helpers.Constants.EmbeddedFonts.FontAwesomeRegular)]
-[assembly: ExportFont(Diploma.Helpers.Constants.EmbeddedFonts.FontAwesomeSolid)]
+[assembly: ExportFont(EmbeddedFonts.FontAwesomeBrands)]
+[assembly: ExportFont(EmbeddedFonts.FontAwesomeRegular)]
+[assembly: ExportFont(EmbeddedFonts.FontAwesomeSolid)]
 
 #endregion Fonts

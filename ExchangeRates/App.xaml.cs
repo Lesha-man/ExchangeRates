@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ExchangeRates.Pages;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -10,7 +11,7 @@ namespace ExchangeRates
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new NavigationPage(new RatesListPage());
         }
 
         protected override void OnStart()

@@ -2,6 +2,6 @@
 {
     public class Symbols
     {
-        public const string NewLine = "&#10;";
+        public const string LineBracker = "\n";
     }
 }

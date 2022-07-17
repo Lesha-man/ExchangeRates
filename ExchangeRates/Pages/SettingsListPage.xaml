@@ -5,44 +5,29 @@
     xmlns:constants="clr-namespace:ExchangeRates.Constants"
     xmlns:models="clr-namespace:ExchangeRates.Models"
     xmlns:viewModels="clr-namespace:ExchangeRates.ViewModels"
-    x:Class="ExchangeRates.Pages.RatesListPage"
-    x:DataType="viewModels:RatesListViewModel"
-    Title="{Static constants:Strings.ExchangeRates}">
+    x:Class="ExchangeRates.Pages.SettingsListPage"
+    x:DataType="viewModels:SettingsListViewModel"
+    Title="{Static constants:Strings.CurrencySettings}">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem
             Order="Primary"
-            Command="{Binding GoToSettingsCommand}">
-            
+            Command="{Binding SubmitCommand}">
+
             <ToolbarItem.IconImageSource>
-                
+
                 <FontImageSource
                     FontFamily="{Static constants:EmbeddedFonts.FontAwesomeSolid}"
-                    Glyph="{Static constants:FontAwsomeIcons.Cog}" />
+                    Glyph="{Static constants:FontAwsomeIcons.Check}" />
             </ToolbarItem.IconImageSource>
         </ToolbarItem>
     </ContentPage.ToolbarItems>
 
     <StackLayout>
 
-        <Grid
-            BackgroundColor="LightGray"
-            ColumnDefinitions="2*, *, *"
-            Padding="10">
-            <Label
-                Text="{Binding FirstDate, StringFormat='{0:dd.MM.yy}'}"
-                FontSize="Large"
-                Grid.Column="1" />
-
-            <Label
-                Text="{Binding SecondDate, StringFormat='{0:dd.MM.yy}'}"
-                FontSize="Large"
-                Grid.Column="2" />
-        </Grid>
-
         <CollectionView
-            ItemsSource="{Binding ExchangeRates}">
-            
+            ItemsSource="{Binding CurrencyVisualSettingsList}">
+
             <CollectionView.ItemTemplate>
 
                 <DataTemplate
@@ -51,37 +36,37 @@
                     <Grid
                         Padding="10"
                         ColumnDefinitions="2*, *, *">
-                        
+
                         <Label
                             Grid.Column="0">
                             <Label.FormattedText>
                                 <FormattedString>
                                     <Span
                                         Text="{Binding Abbreviation}"
-                                        FontSize="Large"/>
+                                        FontSize="Large" />
                                     <Span
                                         Text="{Static constants:Symbols.LineBracker}"
-                                        FontSize="Large"/>
+                                        FontSize="Large" />
                                     <Span
                                         Text="{Binding Scale}"
-                                        FontSize="Small"/>
+                                        FontSize="Small" />
                                     <Span
                                         Text=" "
-                                        FontSize="Small"/>
+                                        FontSize="Small" />
                                     <Span
                                         Text="{Binding Name}"
-                                        FontSize="Small"/>
+                                        FontSize="Small" />
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
 
-                        <Label
-                            Text="{Binding FirstDayOfficialRate}"
-                            FontSize="Large"
+                        <Switch
+                            IsToggled="{Binding }"
                             Grid.Column="1" />
 
                         <Label
-                            Text="{Binding SecondDayOfficialRate}"
+                            Text="{Static constants:FontAwsomeIcons.AlignJustify}"
+                            FontFamily="{Static constants:EmbeddedFonts.FontAwesomeSolid}"
                             FontSize="Large"
                             Grid.Column="2" />
                     </Grid>

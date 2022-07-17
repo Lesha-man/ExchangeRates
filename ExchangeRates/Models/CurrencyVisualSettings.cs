@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 
 namespace ExchangeRates.Models
 {
-    public class Order
+    public class CurrencyVisualSettings
     {
-        public IList<string> Сurrencies { get; set; }
+        public int ID { get; set; }
+
+        public bool IsVisible { get; set; }
     }
 }

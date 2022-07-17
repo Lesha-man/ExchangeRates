@@ -1,18 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ExchangeRates.ViewModels;
 using Xamarin.Forms;
 
 namespace ExchangeRates.Pages
 {
     public partial class RatesListPage : ContentPage
     {
+        private readonly RatesListViewModel _viewModel;
+
         public RatesListPage()
         {
             InitializeComponent();
+
+            BindingContext = _viewModel = new RatesListViewModel(Navigation);
+        }
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+
+            await _viewModel.InitializeAsync();
         }
     }
 }

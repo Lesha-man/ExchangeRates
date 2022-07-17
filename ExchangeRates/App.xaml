@@ -4,5 +4,16 @@
              x:Class="ExchangeRates.App">
     <Application.Resources>
 
+        <Style
+            TargetType="Label">
+
+            <Setter
+                Property="TextColor"
+                Value="Black" />
+            <Setter
+                Property="VerticalTextAlignment"
+                Value="Center" />
+        </Style>
+
     </Application.Resources>
 </Application>

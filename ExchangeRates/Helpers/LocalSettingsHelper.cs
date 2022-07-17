@@ -1,17 +1,17 @@
 ﻿using ExchangeRates.Models;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using Xamarin.Essentials;
 
 namespace ExchangeRates.Helpers
 {
     public static class LocalSettingsHelper
     {
-        public static Order Order
+        public static List<CurrencyVisualSettings> Order
         {
-            get => Get<Order>();
+            get => Get<List<CurrencyVisualSettings>>();
 
-            set => Preferences.Set(nameof(Order), JsonConvert.SerializeObject(value,
-                    new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore }));
+            set => Set(value);
         }
 
         public static T Get<T>() => JsonConvert.DeserializeObject<T>(Preferences.Get(nameof(T), string.Empty));
