@@ -3,7 +3,6 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:constants="clr-namespace:ExchangeRates.Constants"
-    xmlns:models="clr-namespace:ExchangeRates.Models"
     xmlns:viewModels="clr-namespace:ExchangeRates.ViewModels"
     x:Class="ExchangeRates.Pages.SettingsListPage"
     x:DataType="viewModels:SettingsListViewModel"
@@ -103,8 +102,11 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
             <CollectionView.EmptyView>
-
-
+                <Label
+                    Text="{Static constants:Strings.ErrorMassage}"
+                    FontSize="Large"
+                    HorizontalTextAlignment="Center"
+                    Padding="40" />
             </CollectionView.EmptyView>
         </CollectionView>
     </StackLayout>

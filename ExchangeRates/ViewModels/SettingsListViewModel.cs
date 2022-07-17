@@ -1,16 +1,13 @@
-﻿using ExchangeRates.Models;
-using System;
+﻿using ExchangeRates.Helpers;
+using ExchangeRates.Models;
 using System.Collections.Generic;
-using ExchangeRates.Helpers;
-using System.Linq;
-using ExchangeRates.Services;
-using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
-using ExchangeRates.Pages;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using Xamarin.Forms.Internals;
 
 namespace ExchangeRates.ViewModels

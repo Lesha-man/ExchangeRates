@@ -2,15 +2,24 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:constants="clr-namespace:ExchangeRates.Constants"
-    xmlns:models="clr-namespace:ExchangeRates.Models"
+    xmlns:controls="clr-namespace:ExchangeRates.Controls"
     xmlns:viewModels="clr-namespace:ExchangeRates.ViewModels"
     x:Class="ExchangeRates.Pages.RatesListPage"
     x:DataType="viewModels:RatesListViewModel"
     Title="{Static constants:Strings.ExchangeRates}">
-
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:IntToBoolConverter
+                x:Key="IntToBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
     <ContentPage.ToolbarItems>
-        <ToolbarItem
+        <controls:BindableToolbarItem
+            IsVisible="{Binding ExchangeRates.Count, Converter={StaticResource IntToBoolConverter}}"
             Order="Primary"
             Command="{Binding GoToSettingsCommand}">
             
@@ -20,7 +29,7 @@
                     FontFamily="{Static constants:EmbeddedFonts.FontAwesomeSolid}"
                     Glyph="{Static constants:FontAwsomeIcons.Cog}" />
             </ToolbarItem.IconImageSource>
-        </ToolbarItem>
+        </controls:BindableToolbarItem>
     </ContentPage.ToolbarItems>
 
     <StackLayout>
@@ -88,8 +97,11 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
             <CollectionView.EmptyView>
-
-
+                <Label
+                    Text="{Static constants:Strings.ErrorMassage}"
+                    FontSize="Large"
+                    HorizontalTextAlignment="Center"
+                    Padding="40" />
             </CollectionView.EmptyView>
         </CollectionView>
     </StackLayout>

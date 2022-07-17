@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ExchangeRates.Constants
+﻿namespace ExchangeRates.Constants
 {
     public static class FontAwsomeIcons
     {

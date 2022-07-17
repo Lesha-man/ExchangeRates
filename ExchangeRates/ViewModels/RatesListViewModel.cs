@@ -66,14 +66,13 @@ namespace ExchangeRates.ViewModels
 
         public async Task InitializeAsync()
         {
-            UpdateRates();
 
             var tomorrowcurrencies = _clientService.GetOrderAsync(DateTime.Today.AddDays(1));
 
             Task<List<Currency>> secondDaycurrencies;
             Task<List<Currency>> firstDaycurrencies;
 
-            if ((await tomorrowcurrencies).Any())
+            if ((await tomorrowcurrencies).FirstOrDefault() is not null)
             {
                 secondDaycurrencies = tomorrowcurrencies;
 
@@ -92,6 +91,13 @@ namespace ExchangeRates.ViewModels
                 SecondDate = DateTime.Today;
             }
 
+            if ((await firstDaycurrencies)?.FirstOrDefault() is null || (await secondDaycurrencies)?.FirstOrDefault() is null)
+            {
+                return;
+            }
+
+            UpdateRates();
+
             CompileRates(await firstDaycurrencies, await secondDaycurrencies);
         }
 
@@ -99,10 +105,16 @@ namespace ExchangeRates.ViewModels
         {
             var currenciesOrder = LocalSettingsHelper.Order;
 
-            if (currenciesOrder?.FirstOrDefault() is null)
-                return;
-
             ExchangeRates.Clear();
+
+            if (currenciesOrder?.FirstOrDefault() is null)
+            {
+                ExchangeRates.Add(new ExchangeRate { ID = 431 });
+                ExchangeRates.Add(new ExchangeRate { ID = 451 });
+                ExchangeRates.Add(new ExchangeRate { ID = 456 });
+
+                return;
+            }
 
             for (int i = 0; i < currenciesOrder.Count; i++)
             {

@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace ExchangeRates.Services
@@ -22,9 +21,15 @@ namespace ExchangeRates.Services
         public async Task<T> GetAsync<T>(string uri)
         {
             HttpWebRequest request = (HttpWebRequest) WebRequest.Create(uri);
+            request.Timeout = 5000;
 
-            using (HttpWebResponse response = (HttpWebResponse) request.GetResponse())
-            using (Stream resStream = response.GetResponseStream())
+            using HttpWebResponse response = (HttpWebResponse) request.GetResponse();
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                return default(T);
+            }
+
+            using Stream resStream = response.GetResponseStream();
             using (StreamReader reader = new StreamReader(resStream))
             {
                 return JsonConvert.DeserializeObject<T>(await reader.ReadToEndAsync());

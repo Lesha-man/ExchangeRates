@@ -1,8 +1,7 @@
-﻿using ExchangeRates.Models;
+﻿using ExchangeRates.ViewModels;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using Xamarin.Essentials;
-using ExchangeRates.ViewModels;
 
 namespace ExchangeRates.Helpers
 {
