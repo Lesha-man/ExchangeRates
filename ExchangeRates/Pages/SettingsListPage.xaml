@@ -26,6 +26,7 @@
     <StackLayout>
 
         <CollectionView
+            x:Name="CurrencySettingsCollectionView"
             ItemsSource="{Binding CurrencyVisualSettingsList}">
 
             <CollectionView.ItemTemplate>
@@ -33,44 +34,72 @@
                 <DataTemplate
                     x:DataType="{x:Type viewModels:SettingsListViewModel+CurrencyVisualSettings}">
 
-                    <Grid
-                        Padding="10"
-                        ColumnDefinitions="2*, *, *">
+                    <StackLayout
+                        Padding="5"
+                        BackgroundColor="Azure">
+                        <StackLayout.GestureRecognizers>
+                            <DropGestureRecognizer
+                                AllowDrop="True"
+                                DragLeaveCommand="{Binding BindingContext.ItemDragLeave, Source={x:Reference CurrencySettingsCollectionView}}"
+                                DragLeaveCommandParameter="{Binding}"
+                                DragOverCommand="{Binding BindingContext.ItemDraggedOver, Source={x:Reference CurrencySettingsCollectionView}}"
+                                DragOverCommandParameter="{Binding}"
+                                Drop="DropGestureRecognizer_Drop_Collection"
+                                DropCommand="{Binding BindingContext.ItemDropped, Source={x:Reference CurrencySettingsCollectionView}}"
+                                DropCommandParameter="{Binding}" />
+                        </StackLayout.GestureRecognizers>
+                        
+                        <Grid
+                            BackgroundColor="LightYellow"
+                            HeightRequest="40"
+                            IsVisible="{Binding IsBeingDraggedOver}" />
 
-                        <Label
-                            Grid.Column="0">
-                            <Label.FormattedText>
-                                <FormattedString>
-                                    <Span
-                                        Text="{Binding Abbreviation}"
-                                        FontSize="Large" />
-                                    <Span
-                                        Text="{Static constants:Symbols.LineBracker}"
-                                        FontSize="Large" />
-                                    <Span
-                                        Text="{Binding Scale}"
-                                        FontSize="Small" />
-                                    <Span
-                                        Text=" "
-                                        FontSize="Small" />
-                                    <Span
-                                        Text="{Binding Name}"
-                                        FontSize="Small" />
-                                </FormattedString>
-                            </Label.FormattedText>
-                        </Label>
+                        <Grid
+                            Padding="10"
+                            ColumnDefinitions="2*, *, *">
+                            <Grid.GestureRecognizers>
+                                <DragGestureRecognizer
+                                    CanDrag="True"
+                                    DragStarting="DragGestureRecognizer_DragStarting_Collection"
+                                    DragStartingCommand="{Binding BindingContext.ItemDragged, Source={x:Reference CurrencySettingsCollectionView}}"
+                                    DragStartingCommandParameter="{Binding}" />
+                            </Grid.GestureRecognizers>
 
-                        <Switch
-                            IsToggled="{Binding IsVisible, Mode=TwoWay}"
-                            Grid.Column="1" />
+                            <Label
+                                Grid.Column="0">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span
+                                            Text="{Binding Abbreviation}"
+                                            FontSize="Medium" />
+                                        <Span
+                                            Text="{Static constants:Symbols.LineBracker}"
+                                            FontSize="Medium" />
+                                        <Span
+                                            Text="{Binding Scale}"
+                                            FontSize="Small" />
+                                        <Span
+                                            Text=" "
+                                            FontSize="Small" />
+                                        <Span
+                                            Text="{Binding Name}"
+                                            FontSize="Small" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
 
-                        <Label
-                            Text="{Static constants:FontAwsomeIcons.AlignJustify}"
-                            HorizontalTextAlignment="Center"
-                            FontFamily="{Static constants:EmbeddedFonts.FontAwesomeSolid}"
-                            FontSize="Large"
-                            Grid.Column="2" />
-                    </Grid>
+                            <Switch
+                                IsToggled="{Binding IsVisible, Mode=TwoWay}"
+                                Grid.Column="1" />
+
+                            <Label
+                                Text="{Static constants:FontAwsomeIcons.AlignJustify}"
+                                HorizontalTextAlignment="Center"
+                                FontFamily="{Static constants:EmbeddedFonts.FontAwesomeSolid}"
+                                FontSize="Medium"
+                                Grid.Column="2" />
+                        </Grid>
+                    </StackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
             <CollectionView.EmptyView>

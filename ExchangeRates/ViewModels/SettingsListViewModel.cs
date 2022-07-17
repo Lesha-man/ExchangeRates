@@ -9,14 +9,21 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Xamarin.Forms;
 using ExchangeRates.Pages;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using Xamarin.Forms.Internals;
 
 namespace ExchangeRates.ViewModels
 {
     public class SettingsListViewModel : BaseViewModel
     {
-
         public SettingsListViewModel(INavigation navigation, List<Currency> currencies)
         {
+            ItemDragged = new Command<CurrencyVisualSettings>(OnItemDragged);
+            ItemDraggedOver = new Command<CurrencyVisualSettings>(OnItemDraggedOver);
+            ItemDragLeave = new Command<CurrencyVisualSettings>(OnItemDragLeave);
+            ItemDropped = new Command<CurrencyVisualSettings>(i => OnItemDropped(i));
+
             Navigation = navigation;
 
             var currenciesOrder = LocalSettingsHelper.Order;
@@ -39,6 +46,45 @@ namespace ExchangeRates.ViewModels
                 }
             }
         }
+        public ICommand ItemDragged { get; }
+
+        public ICommand ItemDraggedOver { get; }
+
+        public ICommand ItemDragLeave { get; }
+
+        public ICommand ItemDropped { get; }
+
+        private void OnItemDragged(CurrencyVisualSettings item)
+        {
+            CurrencyVisualSettingsList.ForEach(i => i.IsBeingDragged = item == i);
+        }
+
+        private void OnItemDraggedOver(CurrencyVisualSettings item)
+        {
+            var itemBeingDragged = CurrencyVisualSettingsList.FirstOrDefault(i => i.IsBeingDragged);
+            CurrencyVisualSettingsList.ForEach(i => i.IsBeingDraggedOver = item == i && item != itemBeingDragged);
+        }
+
+        private void OnItemDragLeave(CurrencyVisualSettings item)
+        {
+            CurrencyVisualSettingsList.ForEach(i => i.IsBeingDraggedOver = false);
+        }
+
+        private async Task OnItemDropped(CurrencyVisualSettings item)
+        {
+            var itemToMove = CurrencyVisualSettingsList.First(i => i.IsBeingDragged);
+            var itemToInsertBefore = item;
+
+            if (itemToMove == null || itemToInsertBefore == null || itemToMove == itemToInsertBefore)
+                return;
+
+            CurrencyVisualSettingsList.Remove(itemToMove);
+
+            var insertAtIndex = CurrencyVisualSettingsList.IndexOf(itemToInsertBefore);
+            CurrencyVisualSettingsList.Insert(insertAtIndex, itemToMove);
+            itemToMove.IsBeingDragged = false;
+            itemToInsertBefore.IsBeingDraggedOver = false;
+        }
 
         public ObservableCollection<CurrencyVisualSettings> CurrencyVisualSettingsList { get; set; } = new();
 
@@ -56,13 +102,43 @@ namespace ExchangeRates.ViewModels
             await Navigation.PopAsync();
         }
 
-        public class CurrencyVisualSettings
+        public class CurrencyVisualSettings : INotifyPropertyChanged
         {
             public int ID { get; set; }
             public string Abbreviation { get; set; }
             public int Scale { get; set; }
             public string Name { get; set; }
             public bool IsVisible { get; set; }
+
+            private bool _isBeingDragged;
+            public bool IsBeingDragged
+            {
+                get => _isBeingDragged;
+                set
+                {
+                    _isBeingDragged = value;
+                    OnPropertyChanged(nameof(IsBeingDragged));
+                }
+            }
+
+            private bool _isBeingDraggedOver;
+            public bool IsBeingDraggedOver
+            {
+                get => _isBeingDraggedOver;
+                set
+                {
+                    _isBeingDraggedOver = value;
+                    OnPropertyChanged(nameof(IsBeingDraggedOver));
+                }
+            }
+
+
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
     }
 }

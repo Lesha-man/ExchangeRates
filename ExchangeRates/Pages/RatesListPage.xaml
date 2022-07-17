@@ -28,15 +28,15 @@
         <Grid
             BackgroundColor="LightGray"
             ColumnDefinitions="2*, *, *"
-            Padding="10, 10, 15, 10">
+            Padding="10, 10, 10, 15">
             <Label
                 Text="{Binding FirstDate, StringFormat='{0:dd.MM.yy}'}"
-                FontSize="Large"
+                FontSize="Medium"
                 Grid.Column="1" />
 
             <Label
                 Text="{Binding SecondDate, StringFormat='{0:dd.MM.yy}'}"
-                FontSize="Large"
+                FontSize="Medium"
                 Grid.Column="2" />
         </Grid>
 
@@ -58,10 +58,10 @@
                                 <FormattedString>
                                     <Span
                                         Text="{Binding Abbreviation}"
-                                        FontSize="Large"/>
+                                        FontSize="Medium"/>
                                     <Span
                                         Text="{Static constants:Symbols.LineBracker}"
-                                        FontSize="Large"/>
+                                        FontSize="Medium"/>
                                     <Span
                                         Text="{Binding Scale}"
                                         FontSize="Small"/>
@@ -77,12 +77,12 @@
 
                         <Label
                             Text="{Binding FirstDayOfficialRate}"
-                            FontSize="Large"
+                            FontSize="Medium"
                             Grid.Column="1" />
 
                         <Label
                             Text="{Binding SecondDayOfficialRate}"
-                            FontSize="Large"
+                            FontSize="Medium"
                             Grid.Column="2" />
                     </Grid>
                 </DataTemplate>
