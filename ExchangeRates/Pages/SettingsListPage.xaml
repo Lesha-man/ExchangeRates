@@ -31,7 +31,7 @@
             <CollectionView.ItemTemplate>
 
                 <DataTemplate
-                    x:DataType="{x:Type viewModels:RatesListViewModel+ExchangeRate}">
+                    x:DataType="{x:Type viewModels:SettingsListViewModel+CurrencyVisualSettings}">
 
                     <Grid
                         Padding="10"
@@ -61,11 +61,12 @@
                         </Label>
 
                         <Switch
-                            IsToggled="{Binding }"
+                            IsToggled="{Binding IsVisible, Mode=TwoWay}"
                             Grid.Column="1" />
 
                         <Label
                             Text="{Static constants:FontAwsomeIcons.AlignJustify}"
+                            HorizontalTextAlignment="Center"
                             FontFamily="{Static constants:EmbeddedFonts.FontAwesomeSolid}"
                             FontSize="Large"
                             Grid.Column="2" />

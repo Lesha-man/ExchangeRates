@@ -14,24 +14,28 @@ namespace ExchangeRates.ViewModels
 {
     public class SettingsListViewModel : BaseViewModel
     {
-        private readonly IClientService _clientService;
-        private DateTime _firstDate;
-        private DateTime _secondDate;
 
-        public SettingsListViewModel(List<Currency> currencies)
+        public SettingsListViewModel(INavigation navigation, List<Currency> currencies)
         {
+            Navigation = navigation;
+
             var currenciesOrder = LocalSettingsHelper.Order;
 
-            if (currenciesOrder?.FirstOrDefault() is null)
-                return;
-
-            CurrencyVisualSettingsList = new ObservableCollection<CurrencyVisualSettings>(currenciesOrder);
+            if (currenciesOrder?.FirstOrDefault() is not null)
+                CurrencyVisualSettingsList = new ObservableCollection<CurrencyVisualSettings>(currenciesOrder);
 
             foreach (var currency in currencies)
             {
                 if (CurrencyVisualSettingsList.FirstOrDefault(cs => cs.ID == currency.Cur_ID) is null)
                 {
-                    CurrencyVisualSettingsList.Add(new CurrencyVisualSettings { ID = currency.Cur_ID, IsVisible = true});
+                    CurrencyVisualSettingsList.Add(new CurrencyVisualSettings
+                    {
+                        ID = currency.Cur_ID,
+                        IsVisible = true,
+                        Name = currency.Cur_Name,
+                        Abbreviation = currency.Cur_Abbreviation,
+                        Scale = currency.Cur_Scale
+                    });
                 }
             }
         }
@@ -50,6 +54,15 @@ namespace ExchangeRates.ViewModels
             LocalSettingsHelper.Order = CurrencyVisualSettingsList.ToList();
 
             await Navigation.PopAsync();
+        }
+
+        public class CurrencyVisualSettings
+        {
+            public int ID { get; set; }
+            public string Abbreviation { get; set; }
+            public int Scale { get; set; }
+            public string Name { get; set; }
+            public bool IsVisible { get; set; }
         }
     }
 }

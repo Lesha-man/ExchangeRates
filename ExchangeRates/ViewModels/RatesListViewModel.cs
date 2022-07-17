@@ -1,14 +1,16 @@
-﻿using ExchangeRates.Models;
+﻿using ExchangeRates.Helpers;
+using ExchangeRates.Models;
+using ExchangeRates.Pages;
+using ExchangeRates.Services;
 using System;
 using System.Collections.Generic;
-using ExchangeRates.Helpers;
-using System.Linq;
-using ExchangeRates.Services;
-using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
-using ExchangeRates.Pages;
 
 namespace ExchangeRates.ViewModels
 {
@@ -23,19 +25,6 @@ namespace ExchangeRates.ViewModels
             Navigation = navigation;
 
             _clientService = ClientService.Instance;
-
-            var currenciesOrder = LocalSettingsHelper.Order;
-
-            if (currenciesOrder?.FirstOrDefault() is null)
-                return;
-
-            for (int i = 0; i < currenciesOrder.Count; i++)
-            {
-                if (currenciesOrder[i].IsVisible == false)
-                    continue;
-
-                ExchangeRates.Add(new ExchangeRate { ID = currenciesOrder[i].ID });
-            }
         }
 
         public ObservableCollection<ExchangeRate> ExchangeRates { get; set; } = new();
@@ -58,6 +47,7 @@ namespace ExchangeRates.ViewModels
 
         public ICommand GoToSettingsCommand => new Command(GoToSettings);
         public INavigation Navigation { get; set; }
+
         public DateTime SecondDate
         {
             set
@@ -73,8 +63,10 @@ namespace ExchangeRates.ViewModels
                 return _secondDate;
             }
         }
+
         public async Task InitializeAsync()
         {
+            UpdateRates();
 
             var tomorrowcurrencies = _clientService.GetOrderAsync(DateTime.Today.AddDays(1));
 
@@ -101,6 +93,24 @@ namespace ExchangeRates.ViewModels
             }
 
             CompileRates(await firstDaycurrencies, await secondDaycurrencies);
+        }
+
+        private void UpdateRates()
+        {
+            var currenciesOrder = LocalSettingsHelper.Order;
+
+            if (currenciesOrder?.FirstOrDefault() is null)
+                return;
+
+            ExchangeRates.Clear();
+
+            for (int i = 0; i < currenciesOrder.Count; i++)
+            {
+                if (currenciesOrder[i].IsVisible == false)
+                    continue;
+
+                ExchangeRates.Add(new ExchangeRate { ID = currenciesOrder[i].ID });
+            }
         }
 
         private void CompileRates(List<Currency> firstDaycurrencies, List<Currency> secondDaycurrencies)
@@ -153,21 +163,93 @@ namespace ExchangeRates.ViewModels
 
             foreach (var rate in ExchangeRates)
             {
-                currencies.Add(new Currency { Cur_Abbreviation = rate.Abbreviation, Cur_ID = rate.ID });
+                currencies.Add(new Currency
+                {
+                    Cur_Abbreviation = rate.Abbreviation,
+                    Cur_ID = rate.ID,
+                    Cur_Name = rate.Name,
+                    Cur_Scale = rate.Scale
+                });
             }
 
-            await Navigation.PushAsync(new SettingsListPage(currencies));
+            await Navigation.PushAsync(new SettingsListPage(Navigation, currencies));
         }
 
-        public class ExchangeRate
+        public class ExchangeRate : INotifyPropertyChanged
         {
-            public string Abbreviation { get; set; }
-            public double FirstDayOfficialRate { get; set; }
-            public int ID { get; set; }
-            public string Name { get; set; }
-            public int Scale { get; set; }
-            public double SecondDayOfficialRate { get; set; }
-        }
+            private int _iD;
+            private string _abbreviation;
+            private string _name;
+            private int _scale;
+            private double _firstDayOfficialRate;
+            private double _secondDayOfficialRate;
 
+            public int ID
+            {
+                get => _iD;
+                set
+                {
+                    _iD = value;
+                    OnPropertyChanged(nameof(ID));
+                }
+            }
+
+            public string Abbreviation
+            {
+                get => _abbreviation;
+                set
+                {
+                    _abbreviation = value;
+                    OnPropertyChanged(nameof(Abbreviation));
+                }
+            }
+
+            public string Name
+            {
+                get => _name;
+                set
+                {
+                    _name = value;
+                    OnPropertyChanged(nameof(Name));
+                }
+            }
+
+            public int Scale
+            {
+                get => _scale;
+                set
+                {
+                    _scale = value;
+                    OnPropertyChanged(nameof(Scale));
+                }
+            }
+
+            public double FirstDayOfficialRate
+            {
+                get => _firstDayOfficialRate;
+                set
+                {
+                    _firstDayOfficialRate = value;
+                    OnPropertyChanged(nameof(FirstDayOfficialRate));
+                }
+            }
+
+            public double SecondDayOfficialRate
+            {
+                get => _secondDayOfficialRate;
+                set
+                {
+                    _secondDayOfficialRate = value;
+                    OnPropertyChanged(nameof(SecondDayOfficialRate));
+                }
+            }
+
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
 }

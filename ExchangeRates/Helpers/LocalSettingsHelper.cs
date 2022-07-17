@@ -2,14 +2,15 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using Xamarin.Essentials;
+using ExchangeRates.ViewModels;
 
 namespace ExchangeRates.Helpers
 {
     public static class LocalSettingsHelper
     {
-        public static List<CurrencyVisualSettings> Order
+        public static List<SettingsListViewModel.CurrencyVisualSettings> Order
         {
-            get => Get<List<CurrencyVisualSettings>>();
+            get => Get<List<SettingsListViewModel.CurrencyVisualSettings>>();
 
             set => Set(value);
         }

@@ -14,11 +14,11 @@ namespace ExchangeRates.Pages
     {
         private readonly SettingsListViewModel _viewModel;
 
-        public SettingsListPage(List<Currency> currencies)
+        public SettingsListPage(INavigation navigation, List<Currency> currencies)
         {
             InitializeComponent();
 
-            BindingContext = _viewModel = new SettingsListViewModel(currencies);
+            BindingContext = _viewModel = new SettingsListViewModel(navigation, currencies);
         }
 
         protected override async void OnAppearing()
