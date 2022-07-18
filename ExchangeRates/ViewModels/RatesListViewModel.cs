@@ -72,7 +72,7 @@ namespace ExchangeRates.ViewModels
             Task<List<Currency>> secondDaycurrencies;
             Task<List<Currency>> firstDaycurrencies;
 
-            if ((await tomorrowcurrencies).FirstOrDefault() is not null)
+            if ((await tomorrowcurrencies)?.FirstOrDefault() is not null)
             {
                 secondDaycurrencies = tomorrowcurrencies;
 
